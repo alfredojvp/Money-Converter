@@ -1,65 +1,65 @@
 # Money-Converter
 
-Conversor de divisas desarrollado en **Java**, con un menú interactivo en la terminal. Permite convertir dólares estadounidenses a pesos colombianos o elegir un par de monedas y consultar su conversión mediante **ExchangeRate-API**.
+A **Java** currency converter with an interactive terminal menu. It converts US dollars to Colombian pesos or lets you choose a currency pair and retrieve the conversion through **ExchangeRate-API**.
 
-Desarrollé este proyecto como parte de mis estudios en el **bootcamp intensivo de 7 meses de Oracle y Alura**, dentro del **Programa Oracle Next Education F2 T7 Back-end**, perteneciente a **ONE: Oracle Next Education**. Fue un challenge para aplicar programación orientada a objetos, consumo de APIs, procesamiento de JSON y manejo de entradas por consola. La primera versión registrada en este repositorio es del 4 de noviembre de 2024.
+I developed this project during my **intensive seven-month Oracle and Alura bootcamp**, as part of **ONE: Oracle Next Education — Programa Oracle Next Education F2 T7 Back-end**. The challenge put object-oriented programming, API integration, JSON processing, and console input handling into practice. The first version recorded in this repository dates to November 4, 2024.
 
-## ¿Qué hace?
+## Features
 
-- Convierte un monto de **USD a COP** mediante una opción directa.
-- Permite una **conversión personalizada**, indicando los códigos de origen y destino, por ejemplo `EUR` y `USD`.
-- Muestra el monto original, el monto convertido y la tasa de cambio utilizada.
-- Rechaza montos negativos y códigos de moneda vacíos; la API determina si los códigos son compatibles.
-- Mantiene el menú disponible para realizar nuevas conversiones hasta seleccionar la opción de salida.
+- Convert **USD to COP** through a dedicated menu option.
+- Perform a **custom conversion** by entering source and target currency codes, such as `EUR` and `USD`.
+- Display the original amount, converted amount, and exchange rate.
+- Reject negative amounts and empty currency codes; the API determines whether the supplied codes are supported.
+- Keep the menu available for further conversions until the user chooses to exit.
 
-Es una aplicación de consola: se ejecuta en una terminal o desde un IDE. No incluye una interfaz gráfica, un servidor web ni funciones para transferir dinero. Las conversiones requieren conexión a internet y una clave válida del proveedor.
+This is a console application that runs in a terminal or an IDE. It does not include a graphical interface, web server, or money transfer functionality. Conversions require an internet connection and a valid API key.
 
-## API utilizada
+## API
 
-El proyecto utiliza [ExchangeRate-API](https://www.exchangerate-api.com), concretamente su endpoint **Pair Conversion** de la versión 6. Por cada conversión, `ApiClient` envía una petición HTTP `GET` con esta estructura:
+The project uses [ExchangeRate-API](https://www.exchangerate-api.com), specifically its version 6 **Pair Conversion** endpoint. For each conversion, `ApiClient` sends an HTTP `GET` request with this structure:
 
 ```text
-https://v6.exchangerate-api.com/v6/TU_API_KEY/pair/MONEDA_ORIGEN/MONEDA_DESTINO/MONTO
+https://v6.exchangerate-api.com/v6/YOUR_API_KEY/pair/SOURCE_CURRENCY/TARGET_CURRENCY/AMOUNT
 ```
 
-Por ejemplo, una solicitud de `USD` a `COP` para un monto de `100` obtiene una respuesta JSON con los campos `base_code`, `target_code`, `conversion_rate` y `conversion_result`. La aplicación lee esa respuesta con **Gson** y muestra el resultado calculado por la API.
+For example, converting `100` from `USD` to `COP` returns JSON containing `base_code`, `target_code`, `conversion_rate`, and `conversion_result`. The application parses that response with **Gson** and displays the result calculated by the API.
 
-Los códigos de moneda siguen el formato ISO 4217, como `USD`, `COP` y `EUR`. La disponibilidad de monedas, las cuotas de consultas y la actualización de las tasas dependen del servicio y del plan contratado; el programa no garantiza cotizaciones en tiempo real.
+Currencies use ISO 4217 codes such as `USD`, `COP`, and `EUR`. Supported currencies, request quotas, and rate refresh intervals depend on the provider and account plan; the application does not guarantee real-time quotes.
 
-- [Documentación de Pair Conversion](https://www.exchangerate-api.com/docs/pair-conversion-requests)
-- [Monedas admitidas](https://www.exchangerate-api.com/docs/supported-currencies)
+- [Pair Conversion documentation](https://www.exchangerate-api.com/docs/pair-conversion-requests)
+- [Supported currencies](https://www.exchangerate-api.com/docs/supported-currencies)
 
-## Tecnologías y requisitos
+## Technologies and requirements
 
-| Componente | Uso |
+| Component | Purpose |
 | --- | --- |
-| **JDK 17 o posterior, recomendado** | Compilar y ejecutar el programa con `javac` y `java` |
-| **Java HttpClient** | Realizar las solicitudes HTTP a la API |
-| **Gson 2.11.0** | Leer la respuesta JSON; es la versión referenciada por los archivos de IntelliJ |
-| **Scanner** | Recibir las opciones y los montos introducidos por el usuario |
-| **Cuenta y clave de ExchangeRate-API** | Autorizar las consultas de conversión |
-| **Conexión a internet** | Acceder al servicio externo |
+| **JDK 17 or later, recommended** | Compile and run the application with `javac` and `java` |
+| **Java HttpClient** | Make HTTP requests to the API |
+| **Gson 2.11.0** | Parse JSON; this is the version referenced by the IntelliJ module files |
+| **Scanner** | Read menu choices and amounts from the console |
+| **ExchangeRate-API account and key** | Authorize conversion requests |
+| **Internet connection** | Reach the external service |
 
-El código utiliza un `record` y bloques de texto multilínea. Para compilarlo sin funciones experimentales requiere al menos Java 16; esta guía recomienda JDK 17 o superior, y los `.class` incluidos en el repositorio corresponden a Java 17. No basta con un JRE para seguir los pasos de compilación.
+The source uses a `record` and multiline text blocks, requiring at least Java 16 without preview features. This guide recommends JDK 17 or later. A JRE alone is not enough to follow the compilation steps.
 
-El proyecto no incorpora Maven ni Gradle: la dependencia Gson debe añadirse al classpath o configurarse en el IDE.
+The project does not use Maven or Gradle. Gson must be added to the classpath or configured as an IDE dependency.
 
-## Plataformas
+## Platforms
 
-**El código no está limitado a Windows.** Utiliza Java y Gson sin llamadas específicas a ese sistema operativo.
+**The application is not limited to Windows.** Its source uses Java and Gson without Windows-specific calls.
 
-| Plataforma | Cómo podría ejecutarse |
+| Platform | Expected way to run it |
 | --- | --- |
-| Windows | Desde PowerShell o un IDE, con un JDK compatible |
-| macOS, Intel o Apple Silicon | Desde Terminal o un IDE, con el JDK de la arquitectura correspondiente |
-| Linux | Desde una terminal o un IDE, con un JDK compatible |
-| Raspberry Pi con Linux ARM64 | Desde una terminal, con un JDK compatible para ARM64 |
+| Windows | PowerShell or an IDE with a compatible JDK |
+| macOS, Intel or Apple Silicon | Terminal or an IDE with a JDK matching the processor architecture |
+| Linux | A terminal or IDE with a compatible JDK |
+| Raspberry Pi running ARM64 Linux | A terminal with a compatible ARM64 JDK |
 
-Esta compatibilidad se deduce de las dependencias y del código fuente; no implica que esta versión haya sido probada en todos esos entornos. Puede consultarse la disponibilidad de distribuciones del JDK en [Eclipse Temurin](https://adoptium.net/supported-platforms).
+This portability assessment is based on the source and dependencies; it does not mean the application has been tested on every platform listed. See [Eclipse Temurin's supported platforms](https://adoptium.net/supported-platforms) for available JDK distributions.
 
-## Preparación
+## Setup
 
-### 1. Obtener el proyecto y comprobar Java
+### 1. Get the project and check Java
 
 ```sh
 git clone https://github.com/alfredojvp/Money-Converter.git
@@ -68,11 +68,11 @@ java -version
 javac -version
 ```
 
-Los comandos siguientes se ejecutan desde esta carpeta raíz del repositorio.
+Run the following commands from this repository's root directory.
 
-### 2. Añadir Gson
+### 2. Add Gson
 
-Descarga [gson-2.11.0.jar desde Maven Central](https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.11.0/gson-2.11.0.jar), crea una carpeta `lib` en la raíz y guarda el archivo allí:
+Download [gson-2.11.0.jar from Maven Central](https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.11.0/gson-2.11.0.jar), create a `lib` folder in the repository root, and place the file there:
 
 ```text
 Money-Converter/
@@ -82,31 +82,26 @@ Money-Converter/
     └── src/
 ```
 
-La biblioteca no está incluida en el repositorio. Los archivos `.iml` conservan referencias del entorno original de IntelliJ; una de ellas apunta a una carpeta local de descargas que no estará disponible automáticamente en otro equipo.
+The library is not bundled with the project. The `.iml` files retain references from the original IntelliJ environment; one points to a local downloads folder that will not automatically exist on another computer.
 
-### 3. Configurar una clave propia
+### 3. Configure your API key
 
-Obtén tu clave desde tu cuenta de [ExchangeRate-API](https://www.exchangerate-api.com). La versión actual declara `apiKey` directamente en `MoneyConverter/src/Main.java`; no lee variables de entorno de forma automática.
+Get your own key from your [ExchangeRate-API account](https://www.exchangerate-api.com). The application reads it from the **`EXCHANGE_RATE_API_KEY`** environment variable. No source edit is needed.
 
-Para usar una variable de entorno en tu copia local, sustituye **solo esa declaración** por:
+Set the variable in the terminal session or IDE run configuration used to launch the application. If it is missing, empty, or whitespace-only, the program prints a configuration message and exits before making a request. The program does not load `.env` files automatically.
 
-```java
-String apiKey = System.getenv("EXCHANGE_RATE_API_KEY");
-```
+Keep your key private. The commands below prompt for it without displaying it or including its value in a command saved to shell history.
 
-Después, define `EXCHANGE_RATE_API_KEY` en la misma terminal o en la configuración de ejecución del IDE antes de iniciar el programa. No uses ni dependas de la clave incluida en la versión original, y no publiques tu clave personal. La modificación anterior es un paso de configuración local: el código fuente de esta versión todavía conserva la declaración original.
+## Compile and run
 
-## Compilar y ejecutar
+Compile the files in `MoneyConverter/src/`. The following commands create fresh output in `build/`. Generated classes, build directories, local dependency downloads, and `.env` files are excluded from Git.
 
-Usa los archivos de `MoneyConverter/src/`. Las carpetas `out/` contienen compilaciones anteriores; estos pasos generan una compilación nueva en `build/`.
+### Linux and macOS
 
-### Linux y macOS
-
-Después de configurar la lectura de la variable de entorno como se explica arriba, puedes introducir la clave sin mostrarla en pantalla ni escribirla como parte de un comando guardado en el historial. Este bloque usa Bash:
+Start Bash with `bash` if your current shell is different, then run:
 
 ```bash
-bash
-read -r -s -p 'Clave de ExchangeRate-API: ' EXCHANGE_RATE_API_KEY
+read -r -s -p 'ExchangeRate-API key: ' EXCHANGE_RATE_API_KEY
 printf '\n'
 export EXCHANGE_RATE_API_KEY
 mkdir -p build
@@ -116,10 +111,10 @@ java -cp "build:lib/gson-2.11.0.jar" Main
 
 ### Windows — PowerShell
 
-Configura la misma variable en la sesión de PowerShell y compila las cuatro clases:
+Set the variable in the current PowerShell session and compile the four source files:
 
 ```powershell
-$apiKeyInput = Read-Host "Clave de ExchangeRate-API" -AsSecureString
+$apiKeyInput = Read-Host "ExchangeRate-API key" -AsSecureString
 $env:EXCHANGE_RATE_API_KEY = [System.Net.NetworkCredential]::new("", $apiKeyInput).Password
 New-Item -ItemType Directory -Force build | Out-Null
 $sources = (Get-ChildItem ".\MoneyConverter\src\*.java").FullName
@@ -127,19 +122,19 @@ javac -encoding UTF-8 -cp "lib\gson-2.11.0.jar" -d build $sources
 java -cp "build;lib\gson-2.11.0.jar" Main
 ```
 
-El separador del classpath cambia según el sistema: `:` en Linux/macOS y `;` en Windows.
+The classpath separator is `:` on Linux/macOS and `;` on Windows.
 
 ### IntelliJ IDEA
 
-1. Abre el proyecto y selecciona un JDK 17 o superior.
-2. Configura `MoneyConverter/src` como carpeta de código fuente.
-3. Añade `lib/gson-2.11.0.jar` a las dependencias del módulo y reemplaza cualquier referencia local antigua que no se resuelva.
-4. Aplica la configuración de clave descrita arriba y define `EXCHANGE_RATE_API_KEY` en las variables de entorno de la configuración de ejecución.
-5. Ejecuta el método `main` de `Main.java`.
+1. Open the project and select JDK 17 or later.
+2. Mark `MoneyConverter/src` as a source directory.
+3. Add `lib/gson-2.11.0.jar` to the module dependencies and replace any unresolved dependency references from the original environment.
+4. Add `EXCHANGE_RATE_API_KEY` to the environment variables in the run configuration.
+5. Run the `main` method in `Main.java`.
 
-## Uso
+## Usage
 
-Al iniciar, se presenta este menú:
+The application's prompts remain in Spanish. On startup, it displays:
 
 ```text
 === CONVERSOR DE MONEDAS ===
@@ -151,13 +146,13 @@ Al iniciar, se presenta este menú:
 Seleccione una opción:
 ```
 
-| Opción | Datos que solicita |
+| Option | Meaning and requested input |
 | --- | --- |
-| `1` | El monto en dólares estadounidenses que se convertirá a pesos colombianos |
-| `2` | Código de moneda de origen, código de destino y monto |
-| `3` | Cierra el programa |
+| `1` | US dollars to Colombian pesos: enter the amount in USD |
+| `2` | Custom conversion: enter the source code, target code, and amount |
+| `3` | Exit the program |
 
-Ejemplo ilustrativo de la opción `1`, con un monto de `100` y una tasa hipotética de `4000` COP por USD:
+Illustrative output for option `1`, using an amount of `100` and a hypothetical rate of `4000` COP per USD:
 
 ```text
 === Resultado de la conversión ===
@@ -166,29 +161,29 @@ Monto convertido: 400000.00 COP
 Tasa de cambio: 4000.0000
 ```
 
-La tasa del ejemplo es ficticia; una ejecución real muestra la respuesta recibida del proveedor. El separador decimal de entrada y salida depende de la configuración regional de Java, porque `Scanner` y `String.format` usan la configuración predeterminada del equipo.
+These labels mean “conversion result,” “original amount,” “converted amount,” and “exchange rate.” The rate above is fictional; an actual conversion displays the provider's response. Input and output decimal separators depend on Java's default locale because both `Scanner` and `String.format` use the computer's regional settings.
 
-## Organización del código
+## Code structure
 
-| Archivo | Responsabilidad |
+| File | Responsibility |
 | --- | --- |
-| [`Main.java`](MoneyConverter/src/Main.java) | Punto de entrada, menú interactivo, lectura de datos y presentación de resultados o errores |
-| [`ConvertMoney.java`](MoneyConverter/src/ConvertMoney.java) | Validación básica, normalización a mayúsculas, conversión USD/COP y formato de salida |
-| [`ApiClient.java`](MoneyConverter/src/ApiClient.java) | Construcción de la URL, petición HTTP y lectura del JSON con Gson |
-| [`Currency.java`](MoneyConverter/src/Currency.java) | `record` que contiene monedas, tasa, monto original y resultado; incluye un método auxiliar para recalcular un monto con la misma tasa |
+| [`Main.java`](MoneyConverter/src/Main.java) | Entry point, API key configuration, interactive menu, input, and result/error display |
+| [`ConvertMoney.java`](MoneyConverter/src/ConvertMoney.java) | Basic validation, uppercase currency codes, USD/COP conversion, and output formatting |
+| [`ApiClient.java`](MoneyConverter/src/ApiClient.java) | URL construction, HTTP request, and JSON parsing with Gson |
+| [`Currency.java`](MoneyConverter/src/Currency.java) | A `record` containing the currencies, rate, original amount, and result; also provides a helper to recalculate an amount using the same rate |
 
-El recorrido principal es: **menú → validación → consulta a la API → objeto `Currency` → resultado en consola**. En este recorrido, el resultado de la conversión procede del campo `conversion_result` de la API.
+The main flow is: **menu → validation → API request → `Currency` object → console output**. In that flow, the converted amount comes from the API's `conversion_result` field.
 
-## Alcance de esta versión
+## Scope of this version
 
-Es un proyecto educativo con validaciones básicas. Utiliza `double`, muestra los montos con dos decimales y no añade comisiones bancarias. No guarda un historial de conversiones ni conserva tasas para trabajar sin internet.
+This is an educational project with basic validation. It uses `double`, displays amounts with two decimal places, and does not add bank fees. It does not save conversion history or cache exchange rates for offline use.
 
-Los fallos de conexión y las respuestas HTTP distintas de `200` se presentan como errores. El manejo de respuestas JSON inesperadas y de entradas no numéricas es general, y las peticiones no tienen un tiempo límite configurado explícitamente en la aplicación.
+Connection failures and HTTP responses other than `200` are reported as errors. Unexpected JSON responses and nonnumeric input receive general exception handling. The application does not explicitly configure request timeouts.
 
-Esta documentación se elaboró revisando el código y la documentación del proveedor. No certifica la vigencia de la clave original ni una prueba de conversión en vivo.
+A successful conversion also depends on a valid API key, the provider's availability, and the account's request quota.
 
-## Autor y licencia
+## Author and license
 
-**Alfredo José Vélez Parra** — proyecto realizado durante el **Programa Oracle Next Education F2 T7 Back-end**, de Oracle y Alura.
+**Alfredo José Vélez Parra** — developed during Oracle and Alura's **Programa Oracle Next Education F2 T7 Back-end**, part of ONE: Oracle Next Education.
 
-Distribuido bajo la [licencia MIT](LICENSE).
+Distributed under the [MIT license](LICENSE).

@@ -1,0 +1,12 @@
+# Generated Java build output
+*.class
+**/out/
+**/build/
+
+# Local dependency downloads
+/lib/
+
+# Local secrets and machine-specific files
+.env
+.env.*
+.DS_Store

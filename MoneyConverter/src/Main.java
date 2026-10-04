@@ -2,7 +2,12 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        String apiKey = "ab83855b560aac0a297d5eb9";
+        String apiKey = System.getenv("EXCHANGE_RATE_API_KEY");
+        if (apiKey == null || apiKey.isBlank()) {
+            System.err.println("Configura la variable de entorno EXCHANGE_RATE_API_KEY antes de iniciar el programa.");
+            System.exit(1);
+        }
+        apiKey = apiKey.strip();
         ConvertMoney converter = new ConvertMoney(apiKey);
         Scanner read = new Scanner(System.in);
 
